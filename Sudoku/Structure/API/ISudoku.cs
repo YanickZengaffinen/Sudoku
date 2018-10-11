@@ -48,16 +48,16 @@ namespace Sudoku.Structure
         /// <summary>
         /// Get an entire row of cells
         /// </summary>
-        /// <param name="index"> The index of the row </param>
+        /// <param name="row"> The index of the row </param>
         /// <returns> An enumeration of the cells in this row </returns>
-        IEnumerable<ICell> GetRow(in int index);
+        IEnumerable<ICell> GetRow(in int row);
 
         /// <summary>
         /// Get an entire column of cells
         /// </summary>
-        /// <param name="index"> The index of the column </param>
+        /// <param name="column"> The index of the column </param>
         /// <returns> An enumeration of the cells in this column </returns>
-        IEnumerable<ICell> GetColumn(in int index);
+        IEnumerable<ICell> GetColumn(in int column);
 
     }
 }

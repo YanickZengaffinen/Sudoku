@@ -15,6 +15,11 @@ namespace Sudoku.Structure
         ICell[,] Cells { get; }
 
         /// <summary>
+        /// The size of the block
+        /// </summary>
+        int Size { get; }
+
+        /// <summary>
         /// Indexer
         /// </summary>
         /// <param name="row"> The row of the cell relative to the block </param>

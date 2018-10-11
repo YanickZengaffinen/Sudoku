@@ -12,6 +12,6 @@ namespace Sudoku.Structure
         /// <summary>
         /// The value of this cell
         /// </summary>
-        uint Value { get; } //Using uint instead of byte to allow block sizes bigger than 16x16
+        uint Value { get; set; } //Using uint instead of byte to allow block sizes bigger than 16x16
     }
 }
