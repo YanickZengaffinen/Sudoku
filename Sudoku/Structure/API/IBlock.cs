@@ -7,12 +7,12 @@ namespace Sudoku.Structure
     /// <summary>
     /// Interface that represents a squared group of cells in an <see cref="ISudoku"/>
     /// </summary>
-    public interface IBlock
+    public interface IBlock : ICellGroup
     {
         /// <summary>
         /// All the cells contained in this block
         /// </summary>
-        ICell[,] Cells { get; }
+        ICell[,] Cells2D { get; }
 
         /// <summary>
         /// The size of the block

@@ -8,50 +8,63 @@ namespace Sudoku.Structure
     /// <summary>
     /// Basic implementation of an <see cref="ISudoku"/>
     /// </summary>
-    public class Sudoku : ISudoku
+    public sealed class Sudoku : ISudoku
     {
-
-        public IBlock[,] Blocks { get; }
         public ICell[,] Cells { get; }
 
-        public int BlockSize { get; }
+        public IBlock[,] Blocks { get; }
+        public ICellGroup[] Rows { get; }
+        public ICellGroup[] Columns { get; }
+
         public int Size { get; }
+        public int BlockSize { get; }
+        public int BlockAmount { get; }
+
 
         /// <summary>
         /// C'tor that generates a brand new Sudoku
         /// </summary>
-        /// <param name="blocks">How many blocks in width as well as length will this sudoku be made of?</param>
-        /// <param name="blockSize"> The size of one block </param>
-        public Sudoku(in int blocks, in int blockSize)
+        /// <param name="size">How many cells does the sudoku have on every axis</param>
+        public Sudoku(in int size, in uint defaultValue) : this(size)
         {
-            this.BlockSize = blockSize;
-            this.Size = blocks * blockSize;
+            this.Cells = new ICell[Size, Size];
 
-            this.Blocks = new IBlock[blocks, blocks];
-            this.Cells = new ICell[this.Size, this.Size];
-
-            //Initialize the blocks
-            for(int row = 0; row < blocks; row++)
+            //Initialize new cells
+            for (int row = 0; row < Size; row++)
             {
-                for(int column = 0; column < blocks; column++)
+                for (int column = 0; column < Size; column++)
                 {
-                    //Initialize the cells of this block
-                    var cells = new ICell[blockSize, blockSize];
-
-                    for (int i = 0; i < blockSize; i++)
-                    {
-                        for (int j = 0; j < blockSize; j++)
-                        {
-                            var cell = new Cell();
-
-                            Cells[row * blockSize + i, column * blockSize + j] = cell;
-                            cells[i, j] = cell;
-                        }
-                    }
-
-                    Blocks[row, column] = new Block(ref cells);
+                    Cells[row, column] = new Cell(defaultValue);
                 }
             }
+
+            InitStructure();
+        }
+
+        /// <summary>
+        /// C'tor
+        /// </summary>
+        /// <param name="cells"> The cells of the sudoku </param>
+        public Sudoku(ICell[,] cells) : this(cells.GetLength(0))
+        {
+            this.Cells = cells;
+
+            InitStructure();
+        }
+
+        /// <summary>
+        /// Private C'tor which sets up the sizes and creates the blocks/rows/columns array
+        /// </summary>
+        /// <param name="size"> The size of the sudoku </param>
+        private Sudoku(in int size)
+        {
+            this.Size = size;
+            this.BlockSize = (int)Math.Sqrt(Size);
+            this.BlockAmount = Size / BlockSize;
+
+            this.Blocks = new IBlock[BlockAmount, BlockAmount];
+            this.Rows = new ICellGroup[Size];
+            this.Columns = new ICellGroup[Size];
         }
 
         //TODO: Should we do a boundscheck?
@@ -59,33 +72,55 @@ namespace Sudoku.Structure
             get => Cells[row, column];
         }
 
-        //TODO: Should we do a boundscheck?
-        public IBlock GetBlock(in int row, in int column) => Blocks[row, column];
-
-        //TODO: Should we do a boundscheck?
-        public IEnumerable<ICell> GetColumn(in int column)
+        /// <summary>
+        /// Initializes the rows/columns/blocks references
+        /// </summary>
+        private void InitStructure()
         {
-            var rVal = new ICell[Size];
-
-            for(int row = 0; row < Size; row++)
+            //rows
+            for (int row = 0; row < Size; row++)
             {
-                rVal[row] = this[row, column];
+                var rowCells = new ICell[Size];
+
+                for (int column = 0; column < Size; column++)
+                {
+                    rowCells[column] = this[row, column];
+                }
+
+                Rows[row] = new Line(rowCells);
             }
 
-            return rVal;
-        }
-
-        //TODO: Should we do a boundscheck?
-        public IEnumerable<ICell> GetRow(in int row)
-        {
-            var rVal = new ICell[Size];
-
-            for(int column = 0; column < Size; column++)
+            //columns
+            for (int column = 0; column < Size; column++)
             {
-                rVal[column] = this[row, column];
+                var columnCells = new ICell[Size];
+
+                for (int row = 0; row < Size; row++)
+                {
+                    columnCells[row] = this[row, column];
+                }
+
+                Columns[column] = new Line(columnCells);
             }
 
-            return rVal;
+            //blocks
+            for (int row = 0; row < BlockAmount; row++)
+            {
+                for (int column = 0; column < BlockAmount; column++)
+                {
+                    var cells = new ICell[BlockSize, BlockSize];
+
+                    for (int y = 0; y < BlockSize; y++)
+                    {
+                        for (int x = 0; x < BlockSize; x++)
+                        {
+                            cells[x, y] = this[row * BlockSize + y, column * BlockSize + x];
+                        }
+                    }
+
+                    Blocks[row, column] = new Block(cells);
+                }
+            }
         }
     }
 }

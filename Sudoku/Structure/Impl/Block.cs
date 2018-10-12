@@ -9,7 +9,8 @@ namespace Sudoku.Structure
     /// </summary>
     public class Block : IBlock
     {
-        public ICell[,] Cells { get; }
+        public ICell[,] Cells2D { get; }
+        public ICell[] Cells { get; }
 
         public int Size { get; }
 
@@ -22,13 +23,16 @@ namespace Sudoku.Structure
             this.Size = size;
 
             //Initialization of the cells
-            Cells = new ICell[size, size];
+            Cells = new ICell[size * size];
+            Cells2D = new ICell[size, size];
 
             for(int row = 0; row < size; row++)
             {
                 for(int column = 0; column < size; column++)
                 {
-                    Cells[row, column] = new Cell();
+                    var cell = new Cell();
+                    Cells[row * size + column] = cell;
+                    Cells2D[row, column] = cell;
                 }
             }
         }
@@ -37,15 +41,15 @@ namespace Sudoku.Structure
         /// C'tor that generates a block from a list of existing cells
         /// </summary>
         /// <param name="cells"></param>
-        public Block(ref ICell[,] cells)
+        public Block(ICell[,] cells)
         {
             this.Size = cells.GetLength(0);
 
-            this.Cells = cells;
+            this.Cells2D = cells;
         }
 
         public ICell this[in int row, in int column] {
-            get => Cells[row, column];
+            get => Cells2D[row, column];
         }
 
     }
