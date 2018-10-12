@@ -1,4 +1,4 @@
-﻿using Sudoku.Structure;
+﻿using ZenDoku.Structure;
 using System;
 using System.Collections.Generic;
 using System.Text;

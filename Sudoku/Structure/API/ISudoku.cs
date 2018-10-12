@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Sudoku.Structure
+namespace ZenDoku.Structure
 {
     /// <summary>
     /// Interface that represents a basic sudoku structure.

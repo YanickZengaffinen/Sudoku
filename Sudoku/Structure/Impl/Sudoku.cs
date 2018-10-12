@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Sudoku.Structure
+namespace ZenDoku.Structure
 {
     /// <summary>
     /// Basic implementation of an <see cref="ISudoku"/>
@@ -121,6 +121,24 @@ namespace Sudoku.Structure
                     Blocks[row, column] = new Block(cells);
                 }
             }
+        }
+
+        public override string ToString()
+        {
+            StringBuilder rVal = new StringBuilder();
+            rVal.AppendLine($"Sudoku {Size}x{Size}");
+
+            for(int row = 0; row < Size; row++)
+            {
+                for (int column = 0; column < Size; column++)
+                {
+                    rVal.Append(Cells[row, column].Value).Append(" ");
+                }
+
+                rVal.Append("\n");
+            }
+
+            return rVal.ToString();
         }
     }
 }

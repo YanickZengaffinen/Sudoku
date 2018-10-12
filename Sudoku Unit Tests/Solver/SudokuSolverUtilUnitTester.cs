@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using Xunit;
-using Sudoku.Solver;
+using ZenDoku.Solver;
 using System.Linq;
 
 namespace Sudoku_Unit_Tests.Solver

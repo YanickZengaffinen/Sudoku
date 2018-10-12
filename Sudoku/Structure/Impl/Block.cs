@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
-namespace Sudoku.Structure
+namespace ZenDoku.Structure
 {
     /// <summary>
     /// Basic implementation of an <see cref="IBlock"/>
@@ -46,6 +47,7 @@ namespace Sudoku.Structure
             this.Size = cells.GetLength(0);
 
             this.Cells2D = cells;
+            this.Cells = Cells2D.Cast<ICell>().ToArray();
         }
 
         public ICell this[in int row, in int column] {

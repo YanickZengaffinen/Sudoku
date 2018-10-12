@@ -1,10 +1,10 @@
-﻿using Sudoku.Structure;
+﻿using ZenDoku.Structure;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Sudoku.Checker
+namespace ZenDoku.Checker
 {
     /// <summary>
     /// Class that holds extension methods to simplify structural checks on an instance of <see cref="ISudoku"/> or <see cref="IBlock"/>

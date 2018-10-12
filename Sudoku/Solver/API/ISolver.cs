@@ -1,9 +1,9 @@
-﻿using Sudoku.Structure;
+﻿using ZenDoku.Structure;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Sudoku.Solver
+namespace ZenDoku.Solver
 {
     /// <summary>
     /// Interface for a class that solves sudokus
@@ -11,9 +11,13 @@ namespace Sudoku.Solver
     public interface ISolver
     {
         /// <summary>
+        /// The sudoku that is currently being solved
+        /// </summary>
+        ISudoku Sudoku { get; }
+
+        /// <summary>
         /// Solve the sudoku
         /// </summary>
-        /// <param name="sudoku">The sudoku to be solved</param>
-        void Solve(ISudoku sudoku);
+        void Solve();
     }
 }

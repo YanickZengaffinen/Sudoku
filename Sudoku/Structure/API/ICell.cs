@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Sudoku.Structure
+namespace ZenDoku.Structure
 {
     /// <summary>
     /// Interface that represents a sudoku-cell... contains only a integer value

@@ -1,5 +1,5 @@
-﻿using Sudoku.Structure;
-using Sudoku.Checker;
+﻿using ZenDoku.Structure;
+using ZenDoku.Checker;
 using System;
 using System.Collections.Generic;
 using System.Text;
