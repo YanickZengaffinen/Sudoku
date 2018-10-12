@@ -9,43 +9,28 @@ namespace Sudoku_Unit_Tests.Checker
 {
     public class SudokuCheckerUnitTester
     {
-
         [Fact]
-        public void CellGroupContains()
+        public void CellGroupContainsTest()
         {
-            var state = UIntToCellGroup(1, 3, 0);
+            var state = SudokuUtil.CellGroup(1, 3, 0);
 
             Assert.True(state.Contains(1));
             Assert.False(state.Contains(2));
         }
 
         [Fact]
-        public void IsCompleted()
+        public void IsCompletedTest()
         {
-            var completed = UIntToCellGroup(3, 1, 2);
+            var completed = SudokuUtil.CellGroup(3, 1, 2);
             Assert.True(completed.IsCompleted());
 
-            var unfinished = UIntToCellGroup(0, 1, 0);
+            var unfinished = SudokuUtil.CellGroup(0, 1, 0);
             Assert.False(unfinished.IsCompleted());
 
-            var empty = UIntToCellGroup(0, 0, 0);
+            var empty = SudokuUtil.CellGroup(0, 0, 0);
             Assert.False(empty.IsCompleted());
         }
 
-        /// <summary>
-        /// Generates a CellGroup out of an array of uints
-        /// </summary>
-        private ICellGroup UIntToCellGroup(params uint[] values)
-        {
-            var cells = new ICell[values.Length];
-
-            for (int i = 0; i < cells.Length; i++)
-            {
-                cells[i] = new Cell(values[i]);
-            }
-
-            return new Line(cells);
-        }
 
     }
 }
