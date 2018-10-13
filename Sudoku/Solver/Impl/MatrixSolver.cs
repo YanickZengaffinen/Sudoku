@@ -15,9 +15,9 @@ namespace ZenDoku.Solver
     /// </summary>
     public class MatrixSolver : ISolver
     {
-        public ISudoku Sudoku { get; }
+        public ISudoku Sudoku { get; protected set; }
 
-        private LinkedList<uint>[,] matrix;
+        protected LinkedList<uint>[,] matrix;
 
         /// <summary>
         /// C'tor
@@ -31,18 +31,22 @@ namespace ZenDoku.Solver
             ReCalculateMatrix();
         }
 
-        public void Solve()
+        public virtual void Solve()
         {
             while(!IsCompleted())
             {
-                SetNextDefinitive();
+                //Try to set the next definitive... if there is none throw an exception as this solver cannot solve the sudoku
+                if(!TrySetNextNumber())
+                {
+                    throw new NotEnoughInformationException($"{this.GetType().Name} doesn't have enough information to solve the sudoku.");
+                }
             }
         }
 
         /// <summary>
         /// Recalculates the entire matrix
         /// </summary>
-        private void ReCalculateMatrix()
+        protected void ReCalculateMatrix()
         {
             for (int row = 0; row < Sudoku.Size; row++)
             {
@@ -71,7 +75,8 @@ namespace ZenDoku.Solver
         /// <summary>
         /// Method that tries to find the next definitive number
         /// </summary>
-        private void SetNextDefinitive()
+        /// <returns> True if a definitive has been set </returns>
+        protected virtual bool TrySetNextNumber()
         {
             //search for a cell with only one matrix entry
             for (int row = 0; row < Sudoku.Size; row++)
@@ -81,12 +86,12 @@ namespace ZenDoku.Solver
                     if (matrix[row, column].Count == 1)
                     {
                         SetCell(row, column, matrix[row, column].First.Value);
-                        return;
+                        return true;
                     }
                 }
             }
 
-            throw new Exception("Matrix Solver cannot complete this Sudoku... not enough information!");
+            return false;
         }
 
         /// <summary>
@@ -95,7 +100,7 @@ namespace ZenDoku.Solver
         /// <param name="row"> The row-index of the cell </param>
         /// <param name="column"> The column-index of the cell </param>
         /// <param name="value"> The value the cell should be set to </param>
-        private void SetCell(in int row, in int column, in uint value)
+        protected void SetCell(in int row, in int column, in uint value)
         {
             Sudoku.Cells[row, column].Value = value;
 
@@ -128,7 +133,7 @@ namespace ZenDoku.Solver
         /// Check if the sudoku has been completed
         /// </summary>
         /// <returns></returns>
-        private bool IsCompleted()
+        protected bool IsCompleted()
         {
             for (int row = 0; row < Sudoku.Size; row++)
             {

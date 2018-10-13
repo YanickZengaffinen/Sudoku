@@ -7,7 +7,7 @@ namespace ZenDoku.Structure
     /// <summary>
     /// Interface that represents a basic sudoku structure.
     /// </summary>
-    public interface ISudoku
+    public interface ISudoku : ICloneable
     {
         /// <summary>
         /// Get a 2D array of all the cells of the sudoku

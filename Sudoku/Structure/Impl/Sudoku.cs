@@ -140,5 +140,24 @@ namespace ZenDoku.Structure
 
             return rVal.ToString();
         }
+
+        /// <summary>
+        /// Clones the sudoku
+        /// </summary>
+        /// <returns> A deep clone of the sudoku </returns>
+        public object Clone()
+        {
+            var cells = new ICell[Size,Size];
+
+            for (int row = 0; row < Size; row++)
+            {
+                for (int column = 0; column < Size; column++)
+                {
+                    cells[row, column] = new Cell(Cells[row, column].Value);
+                }
+            }
+
+            return new Sudoku(cells);
+        }
     }
 }
