@@ -55,6 +55,21 @@ namespace SudokuTest
             { 3,0,1,    2,0,0,  0,8,0 }
         };
 
+        private uint[,] hardest_test =
+        {
+            { 8,0,0,    0,0,0,  0,0,0 },
+            { 0,0,3,    6,0,0,  0,0,0 },
+            { 0,7,0,    0,9,0,  2,0,0 },
+
+            { 0,5,0,    0,0,7,  0,0,0 },
+            { 0,0,0,    0,4,5,  7,0,0 },
+            { 0,0,0,    1,0,0,  0,3,0 },
+
+            { 0,0,1,    0,0,0,  0,6,8 },
+            { 0,0,8,    5,0,0,  0,1,0 },
+            { 0,9,0,    0,0,0,  4,0,0 }
+        };
+
         public SudokuSolver()
         {
             InitializeComponent();
@@ -71,7 +86,7 @@ namespace SudokuTest
                     box.HorizontalContentAlignment = HorizontalAlignment.Center;
                     box.FontSize = 50;
 
-                    box.Text = test[i, j] == 0 ? "" : test[i, j].ToString();
+                    box.Text = hardest_test[i, j] == 0 ? "" : hardest_test[i, j].ToString();
 
                     box.GotFocus += Box_GotFocus;
 
@@ -103,7 +118,7 @@ namespace SudokuTest
             var sudoku = new Sudoku(cells);
 
             //solves the sudoku
-            var solver = new MatrixSolver(sudoku);
+            var solver = new SmartBruteForceSolver(sudoku);
             solver.Solve();
 
             //set the textboxes to the solved values

@@ -133,7 +133,7 @@ namespace ZenDoku.Solver
         /// Check if the sudoku has been completed
         /// </summary>
         /// <returns></returns>
-        protected bool IsCompleted()
+        protected virtual bool IsCompleted()
         {
             for (int row = 0; row < Sudoku.Size; row++)
             {

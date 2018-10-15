@@ -4,6 +4,7 @@ using System.Text;
 using ZenDoku.Structure;
 using System.Linq;
 using ZenDoku.Util;
+using ZenDoku.Checker;
 
 namespace ZenDoku.Solver
 {
@@ -23,7 +24,11 @@ namespace ZenDoku.Solver
         protected override bool TrySetNextNumber()
         {
             //if there are no definitives create a new variation
-            if(!base.TrySetNextNumber())
+            if (base.TrySetNextNumber())
+            {
+                return true; //do not forget to return true if a number has been set
+            }
+            else
             {
                 //get the cell with the least possible values
                 var shortestValues = new LinkedList<uint>();
@@ -31,10 +36,11 @@ namespace ZenDoku.Solver
                 RowColumnPointer shortestCoords = default;
 
                 matrix.ForEach((LinkedList<uint> entries, RowColumnPointer indices) => {
-                    if(entries.Count() < shortestLength)
+                    int cnt = entries.Count();
+                    if (cnt > 0 && cnt < shortestLength)
                     {
                         shortestValues = entries;
-                        shortestLength = entries.Count();
+                        shortestLength = cnt;
                         shortestCoords = indices;
                     }
                 });
@@ -64,6 +70,11 @@ namespace ZenDoku.Solver
             }
 
             return false;
+        }
+
+        protected override bool IsCompleted()
+        {
+            return GetSudokuVariation().IsCompleted();
         }
 
         /// <summary>
